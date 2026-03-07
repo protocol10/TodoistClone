@@ -1,0 +1,43 @@
+package com.akshaym.todoistclone.ui.theme
+
+import androidx.compose.material3.Typography
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.googlefonts.Font
+import androidx.compose.ui.text.googlefonts.GoogleFont
+import androidx.compose.ui.unit.sp
+import com.akshaym.todoistclone.R
+
+// 1. Initialize the Google Font Provider
+val provider = GoogleFont.Provider(
+    providerAuthority = "com.google.android.gms.fonts",
+    providerPackage = "com.google.android.gms",
+    certificates = R.array.com_google_android_gms_fonts_certs_dev
+)
+
+// 2. Define your Font Family (e.g., using "Inter")
+val fontName = GoogleFont("Inter")
+
+val InterFontFamily = FontFamily(
+    Font(googleFont = fontName, fontProvider = provider),
+    Font(googleFont = fontName, fontProvider = provider, weight = FontWeight.Bold),
+    Font(googleFont = fontName, fontProvider = provider, weight = FontWeight.Medium),
+)
+
+val Typography = Typography(
+    bodyLarge = TextStyle(
+        fontFamily = InterFontFamily, // Apply here
+        fontWeight = FontWeight.Normal,
+        fontSize = 16.sp,
+        lineHeight = 24.sp,
+        letterSpacing = 0.5.sp
+    ),
+    titleLarge = TextStyle(
+        fontFamily = InterFontFamily, // Apply here
+        fontWeight = FontWeight.Bold,
+        fontSize = 22.sp,
+        lineHeight = 28.sp,
+        letterSpacing = 0.sp
+    )
+)
