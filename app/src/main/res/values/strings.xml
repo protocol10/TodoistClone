@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">TodoistClone</string>
+    <string name="str_continue_google">Continue with Google</string>
+    <string name="str_continue_email">Continue with Email</string>
+    <string name="str_continue_facebook">Continue with Facebook</string>
+
+    <string name="str_content_description_google">Google</string>
+    <string name="str_content_description_email">Email</string>
+    <string name="str_content_description_facebook">Facebook</string>
+    <string name="str_content_description_onboarng_image">Onboarding Image</string>
+
+    <string name="str_organize_content_tag">Organize your work, life and family</string>
+    <string name="str_terms_of_service">Terms of Service</string>
+    <string name="str_privacy">Privacy</string>
+    <string name="str_terms_agreement">By continuing with the services above, you agree to </string>
+
+    <string name="str_link_terms_condition" translatable="false">https://doist.com/terms-of-service</string>
+    <string name="str_link_privacy" translatable="false">https://doist.com/privacy</string>
 </resources>
