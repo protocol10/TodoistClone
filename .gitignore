@@ -14,7 +14,6 @@
 .cxx
 local.properties
 /gradlew.bat
-/gradle/
 /.idea/
 /gradle.properties
 /gradlew
