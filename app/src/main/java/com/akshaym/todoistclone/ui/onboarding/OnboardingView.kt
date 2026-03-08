@@ -2,6 +2,7 @@ package com.akshaym.todoistclone.ui.onboarding
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -42,62 +43,63 @@ fun OnboardingView() {
             .background(color = Color(0xFF1E1F21))
             .padding(24.dp)
             .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
-        Text(
-            text = stringResource(R.string.str_organize_content_tag),
-            modifier = Modifier
-                .padding(start = 16.dp, bottom = 0.dp, end = 16.dp, top = 72.dp)
-                .fillMaxWidth(),
-            fontSize = 24.sp,
-            fontFamily = FontFamily.Monospace,
-            color = Color.White,
-            style = MaterialTheme.typography.titleLarge,
-        )
 
-        Image(
-            painter = painterResource(id = R.drawable.ic_onboarding),
-            contentDescription = stringResource(R.string.str_content_description_onboarng_image),
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(vertical = 64.dp),
-        )
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text(
+                text = stringResource(R.string.str_organize_content_tag),
+                modifier = Modifier
+                    .padding(top = 72.dp)
+                    .fillMaxWidth(),
+                fontSize = 24.sp,
+                fontFamily = FontFamily.Monospace,
+                color = Color.White,
+                style = MaterialTheme.typography.titleLarge,
+            )
 
-        Spacer(modifier = Modifier.weight(0.1f))
+            Image(
+                painter = painterResource(id = R.drawable.ic_onboarding),
+                contentDescription = null,
+                modifier = Modifier.padding(vertical = 64.dp)
+            )
+        }
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            SocialButtons(
+                onClick = { },
+                imageVector = Icons.Default.Email,
+                contentDescription = stringResource(R.string.str_content_description_email),
+                iconPadding = 8.dp,
+                tintColor = Color.White,
+                buttonText = stringResource(R.string.str_continue_email)
+            )
+            SocialButtons(
+                onClick = { },
+                resourceId = R.drawable.ic_google,
+                contentDescription = stringResource(R.string.str_content_description_google),
+                iconPadding = 8.dp,
+                tintColor = Color.White,
+                buttonText = stringResource(R.string.str_continue_google)
+            )
+            SocialButtons(
+                onClick = { },
+                resourceId = R.drawable.ic_facebook,
+                contentDescription = stringResource(R.string.str_content_description_facebook),
+                iconPadding = 8.dp,
+                tintColor = Color.White,
+                buttonText = stringResource(R.string.str_continue_facebook)
+            )
 
-        SocialButtons(
-            onClick = { },
-            imageVector = Icons.Default.Email,
-            contentDescription = stringResource(R.string.str_content_description_email),
-            iconPadding = 8.dp,
-            tintColor = Color.White,
-            buttonText = stringResource(R.string.str_continue_email)
-        )
-        SocialButtons(
-            onClick = { },
-            resourceId = R.drawable.ic_google,
-            contentDescription = stringResource(R.string.str_content_description_google),
-            iconPadding = 8.dp,
-            tintColor = Color.White,
-            buttonText = stringResource(R.string.str_continue_google)
-        )
-        SocialButtons(
-            onClick = { },
-            resourceId = R.drawable.ic_facebook,
-            contentDescription = stringResource(R.string.str_content_description_facebook),
-            iconPadding = 8.dp,
-            tintColor = Color.White,
-            buttonText = stringResource(R.string.str_continue_facebook)
-        )
-
-        val termsAndPrivacyText = getTermsAndConditionText()
-        Text(
-            termsAndPrivacyText, modifier = Modifier.padding(vertical = 16.dp),
-            color = Color.White,
-        )
-
+            val termsAndPrivacyText = getTermsAndConditionText()
+            Text(
+                termsAndPrivacyText, modifier = Modifier.padding(vertical = 16.dp),
+                color = Color.White,
+            )
+        }
     }
 }
+
 
 @Composable
 private fun getTermsAndConditionText(): AnnotatedString {
