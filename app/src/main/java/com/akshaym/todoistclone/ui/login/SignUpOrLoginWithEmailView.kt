@@ -28,17 +28,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.akshaym.todoistclone.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginView(onBackPress: () -> Unit) {
+fun LoginView(onBackPress: () -> Unit, navBarController: NavHostController, screenType: String) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
+    val buttonText = if (screenType.toLowerCase() == "login") {
+        "Login"
+    } else {
+        "Sign Up"
+    }
     Scaffold(topBar = {
         TopAppBar(
             title = {}, navigationIcon = {
@@ -49,8 +59,7 @@ fun LoginView(onBackPress: () -> Unit) {
                         .padding(start = 8.dp)
                         .clickable() {
                             onBackPress.invoke()
-                        }
-                )
+                        })
             }, colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -61,7 +70,7 @@ fun LoginView(onBackPress: () -> Unit) {
             modifier = Modifier.padding(innerPadding)
         ) {
             Text(
-                text = "SignUp",
+                text = buttonText,
                 modifier = Modifier
                     .padding(start = 16.dp, top = 16.dp)
                     .fillMaxWidth(),
@@ -97,11 +106,12 @@ fun LoginView(onBackPress: () -> Unit) {
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
                 onValueChange = { it ->
-                    email = it
+                    password = it
                 },
                 label = { Text(text = stringResource(id = R.string.str_placeholder_password)) },
                 placeholder = { Text(text = stringResource(id = R.string.str_placeholder_password)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
                 trailingIcon = {
                     val image = if (isPasswordVisible) Icons.Filled.Visibility
                     else Icons.Filled.VisibilityOff
@@ -121,7 +131,7 @@ fun LoginView(onBackPress: () -> Unit) {
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
                 content = {
-                    Text(text = "Sign Up")
+                    Text(text = buttonText)
                 })
 
         }
@@ -131,5 +141,5 @@ fun LoginView(onBackPress: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewLoginView() {
-    LoginView(onBackPress = {})
+    LoginView(onBackPress = {}, navBarController = rememberNavController(), screenType = "login")
 }

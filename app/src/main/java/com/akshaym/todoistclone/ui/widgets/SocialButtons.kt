@@ -35,9 +35,9 @@ fun SocialButtons(
     contentDescription: String,
     iconPadding: Dp,
     tintColor: Color = Color.White,
-    buttonText: String
+    buttonText: String, modifier: Modifier = Modifier.fillMaxWidth()
 ) {
-    Button(onClick = onClick, modifier = Modifier.fillMaxWidth(), content = {
+    Button(onClick = onClick, modifier = modifier, content = {
         // Used for showing specifically for icons i.e smaller icons and by default is 24 X 24
         // Officially recommended for icon buttons, if we want more flexible then we can use Image composable
         Icon(

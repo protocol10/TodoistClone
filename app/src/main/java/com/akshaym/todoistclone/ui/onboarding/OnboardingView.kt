@@ -3,20 +3,31 @@ package com.akshaym.todoistclone.ui.onboarding
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -28,6 +39,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -38,6 +50,7 @@ import com.akshaym.todoistclone.ui.widgets.SocialButtons
 
 @Composable
 fun OnboardingView(navBarController: NavHostController) {
+    var expanded by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -66,17 +79,58 @@ fun OnboardingView(navBarController: NavHostController) {
                 modifier = Modifier.padding(vertical = 64.dp)
             )
         }
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()
+        ) {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxWidth()) {
+
+                SocialButtons(
+                    onClick = { expanded = !expanded },
+                    imageVector = Icons.Default.Email,
+                    contentDescription = stringResource(R.string.str_content_description_email),
+                    iconPadding = 8.dp,
+                    tintColor = Color.White,
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .fillMaxWidth(),
+                    buttonText = stringResource(R.string.str_continue_email)
+                )
+                DropdownMenu(
+                    expanded = expanded,
+                    offset = DpOffset(0.dp, 8.dp),
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier
+                        .align(Alignment.TopCenter)
+                        .background(Color(0xFF282828))
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Sign up with Email", color = Color.White) },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Edit, contentDescription = null, tint = Color.White
+                            )
+                        },
+                        onClick = {
+                            expanded = false
+                            navBarController.navigate(Screen.SignUpOrLogin.createRoute("signUp"))
+                            // Navigate to Sign Up
+                        })
+                    DropdownMenuItem(
+                        text = { Text("Login with Email", color = Color.White) },
+                        leadingIcon = {
+                            Icon(
+                                Icons.Default.Email, contentDescription = null, tint = Color.White
+                            )
+                        },
+                        onClick = {
+                            expanded = false
+                            navBarController.navigate(Screen.SignUpOrLogin.createRoute("login"))
+                        })
+                }
+            }
+
             SocialButtons(
-                onClick = { navBarController.navigate(Screen.SignUpOrLogin.route) },
-                imageVector = Icons.Default.Email,
-                contentDescription = stringResource(R.string.str_content_description_email),
-                iconPadding = 8.dp,
-                tintColor = Color.White,
-                buttonText = stringResource(R.string.str_continue_email)
-            )
-            SocialButtons(
-                onClick = { navBarController.navigate(Screen.SignUpOrLogin.route) },
+                onClick = { expanded = false },
                 resourceId = R.drawable.ic_google,
                 contentDescription = stringResource(R.string.str_content_description_google),
                 iconPadding = 8.dp,
@@ -84,7 +138,7 @@ fun OnboardingView(navBarController: NavHostController) {
                 buttonText = stringResource(R.string.str_continue_google)
             )
             SocialButtons(
-                onClick = { navBarController.navigate(Screen.SignUpOrLogin.route) },
+                onClick = { expanded = false },
                 resourceId = R.drawable.ic_facebook,
                 contentDescription = stringResource(R.string.str_content_description_facebook),
                 iconPadding = 8.dp,
