@@ -11,18 +11,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.akshaym.todoistclone.navigation.SetUpNavGraph
 import com.akshaym.todoistclone.ui.onboarding.OnboardingView
 import com.akshaym.todoistclone.ui.theme.TodoistCloneTheme
 
 class MainActivity : ComponentActivity() {
+    lateinit var navBarController: NavHostController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             TodoistCloneTheme {
+                navBarController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Log.i("Inner padding", innerPadding.toString())
-                    OnboardingView()
+                    SetUpNavGraph(navBarController)
+//
                 }
             }
         }

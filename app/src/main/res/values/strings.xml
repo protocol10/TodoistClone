@@ -8,6 +8,8 @@
     <string name="str_content_description_email">Email</string>
     <string name="str_content_description_facebook">Facebook</string>
     <string name="str_content_description_onboarng_image">Onboarding Image</string>
+    <string name="str_content_description_show_password">Onboarding Image</string>
+    <string name="str_content_description_hide_password">Onboarding Image</string>
 
     <string name="str_organize_content_tag">Organize your work, life and family</string>
     <string name="str_terms_of_service">Terms of Service</string>
@@ -16,4 +18,7 @@
 
     <string name="str_link_terms_condition" translatable="false">https://doist.com/terms-of-service</string>
     <string name="str_link_privacy" translatable="false">https://doist.com/privacy</string>
+
+    <string name="str_placeholder_password">Your password</string>
+    <string name="str_placeholder_email">Add your email and password</string>
 </resources>
