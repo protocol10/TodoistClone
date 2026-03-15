@@ -27,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -51,6 +52,13 @@ import com.akshaym.todoistclone.ui.widgets.SocialButtons
 @Composable
 fun OnboardingView(navBarController: NavHostController) {
     var expanded by remember { mutableStateOf(false) }
+    var buttonWidthPx by remember { mutableStateOf(0) }
+    var menuWidthPx by remember { mutableStateOf(0) }
+    val density = LocalDensity.current
+    val offsetX = with(density) {
+        (buttonWidthPx / 4).toDp()
+    }
+    
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -92,13 +100,18 @@ fun OnboardingView(navBarController: NavHostController) {
                     tintColor = Color.White,
                     modifier = Modifier
                         .padding(end = 8.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .onGloballyPositioned {
+                            buttonWidthPx = it.size.width
+                        },
                     buttonText = stringResource(R.string.str_continue_email)
                 )
                 DropdownMenu(
                     expanded = expanded,
-                    offset = DpOffset(0.dp, 8.dp),
+                    offset = DpOffset(x = offsetX, y = 2.dp),
                     onDismissRequest = { expanded = false },
+                    tonalElevation = 6.dp,
+                    shape = MaterialTheme.shapes.medium,
                     modifier = Modifier
                         .align(Alignment.TopCenter)
                         .background(Color(0xFF282828))

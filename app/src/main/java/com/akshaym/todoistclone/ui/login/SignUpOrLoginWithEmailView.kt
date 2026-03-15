@@ -44,7 +44,7 @@ fun LoginView(onBackPress: () -> Unit, navBarController: NavHostController, scre
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordVisible by remember { mutableStateOf(false) }
-    val buttonText = if (screenType.toLowerCase() == "login") {
+    val buttonText = if (screenType.lowercase() == "login") {
         "Login"
     } else {
         "Sign Up"
