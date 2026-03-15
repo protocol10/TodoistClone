@@ -34,16 +34,19 @@ import androidx.compose.ui.text.toLowerCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.akshaym.todoistclone.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginView(onBackPress: () -> Unit, navBarController: NavHostController, screenType: String) {
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var isPasswordVisible by remember { mutableStateOf(false) }
+fun LoginView(
+    onBackPress: () -> Unit,
+    navBarController: NavHostController,
+    screenType: String,
+    viewModel: SignUpOrLoginViewModel
+) {
     val buttonText = if (screenType.lowercase() == "login") {
         "Login"
     } else {
@@ -66,6 +69,7 @@ fun LoginView(onBackPress: () -> Unit, navBarController: NavHostController, scre
             )
         )
     }) { innerPadding ->
+        val isPasswordVisible = viewModel.uiState.isPassWordVisible
         Column(
             modifier = Modifier.padding(innerPadding)
         ) {
@@ -88,26 +92,36 @@ fun LoginView(onBackPress: () -> Unit, navBarController: NavHostController, scre
                 style = MaterialTheme.typography.titleLarge,
             )
             OutlinedTextField(
-                value = email,
+                value = viewModel.uiState.email,
                 modifier = Modifier
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
                 onValueChange = { it ->
-                    email = it
+                    viewModel.onEmailChanged(it)
                 },
                 singleLine = true,
+                isError = viewModel.uiState.emailError.isNotEmpty(),
                 label = { Text(text = stringResource(id = R.string.str_placeholder_email)) },
                 placeholder = { Text(text = stringResource(id = R.string.str_placeholder_email)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
+            if (viewModel.uiState.emailError.isNotEmpty()) {
+                Text(
+                    text = viewModel.uiState.emailError,
+                    fontSize = 10.sp,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(16.dp, top = 1.dp, end = 16.dp, bottom = 0.dp)
+                )
+            }
             OutlinedTextField(
-                value = password,
+                value = viewModel.uiState.password,
                 modifier = Modifier
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
                 onValueChange = { it ->
-                    password = it
+                    viewModel.onPasswordChanged(it)
                 },
+                isError = viewModel.uiState.passwordError.isNotEmpty(),
                 label = { Text(text = stringResource(id = R.string.str_placeholder_password)) },
                 placeholder = { Text(text = stringResource(id = R.string.str_placeholder_password)) },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -121,12 +135,21 @@ fun LoginView(onBackPress: () -> Unit, navBarController: NavHostController, scre
                             R.string.str_content_description_hide_password
                         )
 
-                    IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                    IconButton(onClick = { viewModel.togglePasswordVisibility() }) {
                         Icon(imageVector = image, contentDescription = description)
                     }
                 })
+            if (viewModel.uiState.passwordError.isNotEmpty()) {
+                Text(
+                    text = viewModel.uiState.passwordError,
+                    fontSize = 10.sp,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(16.dp, top = 1.dp, end = 16.dp, bottom = 0.dp)
+                )
+            }
             Button(
                 onClick = {},
+                enabled = viewModel.uiState.isSubmitEnabled,
                 modifier = Modifier
                     .padding(start = 16.dp, top = 16.dp, end = 16.dp)
                     .fillMaxWidth(),
@@ -141,5 +164,8 @@ fun LoginView(onBackPress: () -> Unit, navBarController: NavHostController, scre
 @Preview(showBackground = true)
 @Composable
 fun PreviewLoginView() {
-    LoginView(onBackPress = {}, navBarController = rememberNavController(), screenType = "login")
+    LoginView(
+        onBackPress = {}, navBarController = rememberNavController(), screenType = "login",
+        viewModel = viewModel(),
+    )
 }

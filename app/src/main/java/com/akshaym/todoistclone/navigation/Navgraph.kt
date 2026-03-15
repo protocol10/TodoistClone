@@ -1,12 +1,14 @@
 package com.akshaym.todoistclone.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.akshaym.todoistclone.ui.login.LoginView
+import com.akshaym.todoistclone.ui.login.SignUpOrLoginViewModel
 import com.akshaym.todoistclone.ui.onboarding.OnboardingView
 
 @Composable
@@ -25,7 +27,8 @@ fun SetUpNavGraph(navController: NavHostController) {
             LoginView(
                 navBarController = navController,
                 onBackPress = { navController.popBackStack() },
-                screenType = screenType ?: "login"
+                screenType = screenType ?: "login",
+                viewModel = viewModel(),
             )
         }
     }
